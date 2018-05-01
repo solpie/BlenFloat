@@ -1,5 +1,5 @@
 gob_bpy = {
-    "export":"""
+    "export": """
 def main():
     import bpy
     bpy.ops.scene.gob_export()
@@ -7,7 +7,6 @@ def main():
 main()
 """
 }
-
 
 
 import win32gui
@@ -23,12 +22,12 @@ def runDefScript():
     # 0x55
     # U key
     win32api.PostMessage(hwnd, win32con.WM_KEYDOWN,
-                         win32con.VK_CONTROL, 0)  # 
-    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, 0x55, 0)  # 
+                         win32con.VK_CONTROL, 0)  #
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, 0x55, 0)  #
     win32api.PostMessage(hwnd, win32con.WM_KEYUP, 0x55, 0)
     win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_CONTROL, 0)
     win32api.PostMessage(hwnd, win32con.WM_KEYDOWN,
-                         win32con.VK_MULTIPLY, 0)  # 
+                         win32con.VK_MULTIPLY, 0)  #
     win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_MULTIPLY, 0)
 
 
@@ -72,18 +71,34 @@ def scriptDynaMesh(v):
 '''.format(v)
     return s
 
-def runZRemesher(zpath,v):
+
+def runZRemesher(zpath, v):
     s = scriptZRemesher(v)
-    writeZScript(s,zpath)
+    writeZScript(s, zpath)
     runDefScript()
     pass
 
-def runDynaMesh(zpath,v):
+
+def runDynaMesh(zpath, v):
     s = scriptDynaMesh(v)
-    writeZScript(s,zpath)
+    writeZScript(s, zpath)
     runDefScript()
     pass
-    
+
+
+def zbCloseHole(zpath):
+    s = "[Loop,1,[IPress,Tool:Geometry:Close Holes]]"
+    defzsc = os.path.join(zpath, "DefaultZScript.txt")
+    f = open(defzsc, 'w')
+    f.write(s)
+    f.close()
+    runDefScript()
+
+def zbRun():
+    hwnd = win32gui.FindWindowEx(0, 0, 0, 'ZBrush')
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN,win32con.VK_MULTIPLY, 0)
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_MULTIPLY, 0)
+
 def main():
     s = runZRemesher(2)
     writeZScript(s)
@@ -91,3 +106,33 @@ def main():
 
 if __name__ == '__main__':
     main()
+# send key only
+
+
+def zbUndo():
+    hwnd = win32gui.FindWindowEx(0, 0, 0, 'ZBrush')
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_CONTROL, 0)
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN,	90, 0)
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, 90, 0)
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_CONTROL, 0)
+
+
+def zbRedo():
+    hwnd = win32gui.FindWindowEx(0, 0, 0, 'ZBrush')
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_CONTROL, 0)  #
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_SHIFT, 0)  #
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN,	90, 0)  #
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, 	90, 0)
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_SHIFT, 0)
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_CONTROL, 0)
+
+
+def zbFocus():
+    hwnd = win32gui.FindWindowEx(0, 0, 0, 'ZBrush')
+    win32api.PostMessage(hwnd, win32con.WM_KEYDOWN,		70, 0)  #
+    win32api.PostMessage(hwnd, win32con.WM_KEYUP, 		70, 0)
+key_func = {
+    "focus": zbFocus,
+    "undo": zbUndo,
+    "redo": zbRedo
+}

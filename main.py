@@ -30,7 +30,7 @@ import wx
 
 from gui import BlenFloat
 
-from gob import gob_bpy, runZRemesher, runDynaMesh
+from gob import gob_bpy, runZRemesher, runDynaMesh, key_func, zbCloseHole
 
 
 class BlenFloatView(BlenFloat):
@@ -52,7 +52,19 @@ class BlenFloatView(BlenFloat):
         zsc_path = self.text_zsc.GetValue()
         v = self.text_dynamesh.GetValue()
         runDynaMesh(zsc_path, v)
-        
+
+    def on_undo(self, e):
+        key_func['undo']()
+
+    def on_redo(self, e):
+        key_func['redo']()
+    
+    def on_focus(self,e):
+        key_func['focus']()
+
+    def on_close_hole(self, e):
+        zsc_path = self.text_zsc.GetValue()
+        zbCloseHole(zsc_path)
 
     def on_run_test_py(self, event):
         with open('test.py', 'r') as t:

@@ -17,7 +17,7 @@ import wx.xrc
 class BlenFloat ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BlenFloat", pos = wx.DefaultPosition, size = wx.Size( 385,384 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BlenFloat", pos = wx.DefaultPosition, size = wx.Size( 385,405 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		
@@ -60,6 +60,9 @@ class BlenFloat ( wx.Frame ):
 		
 		self.m_button9 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"remesh", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer1.Add( self.m_button9, 0, wx.ALL, 5 )
+		
+		self.m_button14 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"close hole", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer1.Add( self.m_button14, 0, wx.ALL, 5 )
 		
 		
 		sbSizer1.Add( fgSizer1, 1, wx.EXPAND, 5 )
@@ -107,8 +110,21 @@ class BlenFloat ( wx.Frame ):
 		self.m_panel2 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer41 = wx.BoxSizer( wx.VERTICAL )
 		
+		gbSizer1 = wx.GridBagSizer( 0, 0 )
+		gbSizer1.SetFlexibleDirection( wx.BOTH )
+		gbSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_button12 = wx.Button( self.m_panel2, wx.ID_ANY, u"share  weight", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer1.Add( self.m_button12, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
 		self.m_button51 = wx.Button( self.m_panel2, wx.ID_ANY, u"Run test.py", wx.DefaultPosition, wx.DefaultSize, 0 )
-		bSizer41.Add( self.m_button51, 0, wx.ALL, 5 )
+		gbSizer1.Add( self.m_button51, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
+		self.m_button13 = wx.Button( self.m_panel2, wx.ID_ANY, u"hide cs SHA", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer1.Add( self.m_button13, wx.GBPosition( 0, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
+		
+		bSizer41.Add( gbSizer1, 1, wx.EXPAND, 5 )
 		
 		
 		self.m_panel2.SetSizer( bSizer41 )
@@ -126,9 +142,13 @@ class BlenFloat ( wx.Frame ):
 		
 		# Connect Events
 		self.m_button2.Bind( wx.EVT_BUTTON, self.on_export )
+		self.m_button4.Bind( wx.EVT_BUTTON, self.on_focus )
+		self.m_button5.Bind( wx.EVT_BUTTON, self.on_undo )
 		self.m_button9.Bind( wx.EVT_BUTTON, self.on_remesh )
+		self.m_button14.Bind( wx.EVT_BUTTON, self.on_close_hole )
 		self.m_button10.Bind( wx.EVT_BUTTON, self.on_dynamesh )
 		self.m_button51.Bind( wx.EVT_BUTTON, self.on_run_test_py )
+		self.m_button13.Bind( wx.EVT_BUTTON, self.on_hide_SHA )
 	
 	def __del__( self ):
 		pass
@@ -138,13 +158,25 @@ class BlenFloat ( wx.Frame ):
 	def on_export( self, event ):
 		event.Skip()
 	
+	def on_focus( self, event ):
+		event.Skip()
+	
+	def on_undo( self, event ):
+		event.Skip()
+	
 	def on_remesh( self, event ):
+		event.Skip()
+	
+	def on_close_hole( self, event ):
 		event.Skip()
 	
 	def on_dynamesh( self, event ):
 		event.Skip()
 	
 	def on_run_test_py( self, event ):
+		event.Skip()
+	
+	def on_hide_SHA( self, event ):
 		event.Skip()
 	
 
