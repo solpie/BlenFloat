@@ -106,7 +106,7 @@ class BlenFloat ( wx.Frame ):
 		self.m_panel1.SetSizer( bSizer5 )
 		self.m_panel1.Layout()
 		bSizer5.Fit( self.m_panel1 )
-		self.m_notebook1.AddPage( self.m_panel1, u"Gob", True )
+		self.m_notebook1.AddPage( self.m_panel1, u"Gob", False )
 		self.m_panel2 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer41 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -126,11 +126,41 @@ class BlenFloat ( wx.Frame ):
 		
 		bSizer41.Add( gbSizer1, 1, wx.EXPAND, 5 )
 		
+		sbSizer3 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel2, wx.ID_ANY, u"blenRig5" ), wx.VERTICAL )
+		
+		self.m_button11 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"match def armature", wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer3.Add( self.m_button11, 0, wx.ALL, 5 )
+		
+		
+		bSizer41.Add( sbSizer3, 1, wx.EXPAND, 5 )
+		
 		
 		self.m_panel2.SetSizer( bSizer41 )
 		self.m_panel2.Layout()
 		bSizer41.Fit( self.m_panel2 )
-		self.m_notebook1.AddPage( self.m_panel2, u"Rig", False )
+		self.m_notebook1.AddPage( self.m_panel2, u"Rig", True )
+		self.m_panel3 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer51 = wx.BoxSizer( wx.VERTICAL )
+		
+		fgSizer3 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer3.SetFlexibleDirection( wx.BOTH )
+		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		combobox_hwndChoices = []
+		self.combobox_hwnd = wx.ComboBox( self.m_panel3, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 230,-1 ), combobox_hwndChoices, 0 )
+		fgSizer3.Add( self.combobox_hwnd, 0, wx.ALL, 5 )
+		
+		self.m_button121 = wx.Button( self.m_panel3, wx.ID_ANY, u"refresh hwnd", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer3.Add( self.m_button121, 0, wx.ALL, 5 )
+		
+		
+		bSizer51.Add( fgSizer3, 1, wx.EXPAND, 5 )
+		
+		
+		self.m_panel3.SetSizer( bSizer51 )
+		self.m_panel3.Layout()
+		bSizer51.Fit( self.m_panel3 )
+		self.m_notebook1.AddPage( self.m_panel3, u"setting", False )
 		
 		bSizer4.Add( self.m_notebook1, 1, wx.EXPAND |wx.ALL, 5 )
 		
@@ -149,6 +179,9 @@ class BlenFloat ( wx.Frame ):
 		self.m_button10.Bind( wx.EVT_BUTTON, self.on_dynamesh )
 		self.m_button51.Bind( wx.EVT_BUTTON, self.on_run_test_py )
 		self.m_button13.Bind( wx.EVT_BUTTON, self.on_hide_SHA )
+		self.m_button11.Bind( wx.EVT_BUTTON, self.on_rig_match_def_armature )
+		self.combobox_hwnd.Bind( wx.EVT_COMBOBOX, self.on_select_hwnd )
+		self.m_button121.Bind( wx.EVT_BUTTON, self.on_find_hwnd )
 	
 	def __del__( self ):
 		pass
@@ -177,6 +210,15 @@ class BlenFloat ( wx.Frame ):
 		event.Skip()
 	
 	def on_hide_SHA( self, event ):
+		event.Skip()
+	
+	def on_rig_match_def_armature( self, event ):
+		event.Skip()
+	
+	def on_select_hwnd( self, event ):
+		event.Skip()
+	
+	def on_find_hwnd( self, event ):
 		event.Skip()
 	
 
