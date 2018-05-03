@@ -23,7 +23,7 @@ shell = win32com.client.Dispatch("WScript.Shell")
 
 
 def callBlender(hwnd):
-    print('call blender',hwnd)
+    print('call blender', hwnd)
     win32gui.SetForegroundWindow(hwnd)
     # win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_F5, 0)
     # win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_F5, 0)
@@ -84,15 +84,21 @@ class BlenFloatView(BlenFloat):
         pass
 
     def on_rig_match_def_armature(self, event):
-        run_bpy_by_filename('bpys/rig_match_def_armature.py')
+        run_bpy_by_filename_func_stack(
+            'bpys/rig_match_def_armature.py', ['#func_1#'])
         pass
-
+    def on_rig_set_constraints( self, event ):
+        run_bpy_by_filename('bpys/rig_set_constraints.py')
+    def on_rig_clear_all_constraints(self, event):
+        run_bpy_by_filename('bpys/rig_clear_all_constraints.py')
     # settig tab
     title_hwnd_map = {}
     hwnd = -1
 
     def on_find_hwnd(self, event):
         self.combobox_hwnd.Clear()
+        self.hwnd = -1
+
         def set_combobox(hwnd, e):
             title = win32gui.GetWindowText(hwnd)
             if "Blender" in title and '.blend' in title:
@@ -119,6 +125,16 @@ def run_bpy_by_filename(filename):
     pass
 
 
+def run_bpy_by_filename_func_stack(filename, func_stack):
+    with open(filename, 'r') as f:
+        s = f.read()
+        for uncomment in func_stack:
+            s = s.replace(uncomment, '')
+        run_bpy_str(s)
+        f.close()
+    pass
+
+
 def run_bpy_str(bpystr):
     with open('c:/tmp/bpy.py', 'w') as bpy:
         bpy.write(bpystr)
@@ -133,10 +149,11 @@ def run_bpy_str(bpystr):
             print(e)
             return 'err'
 
+
 def elevate():
     import admin
     if not admin.isUserAdmin():
-            admin.runAsAdmin()
+        admin.runAsAdmin()
 
 frame = None
 if __name__ == '__main__':
