@@ -85,7 +85,7 @@ class BlenFloatView(BlenFloat):
 
     def on_rig_match_def_armature(self, event):
         run_bpy_by_filename_func_stack(
-            'bpys/rig_match_def_armature.py', ['#func_1#'])
+            'bpys/rig_match_def_armature.py', ['# func_1#'])
         pass
     def on_rig_set_constraints( self, event ):
         run_bpy_by_filename('bpys/rig_set_constraints.py')
@@ -130,6 +130,7 @@ def run_bpy_by_filename_func_stack(filename, func_stack):
         s = f.read()
         for uncomment in func_stack:
             s = s.replace(uncomment, '')
+            print(uncomment,s)
         run_bpy_str(s)
         f.close()
     pass

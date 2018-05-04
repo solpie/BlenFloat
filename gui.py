@@ -17,7 +17,7 @@ import wx.xrc
 class BlenFloat ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BlenFloat", pos = wx.DefaultPosition, size = wx.Size( 385,405 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BlenFloat", pos = wx.DefaultPosition, size = wx.Size( 385,405 ), style = wx.DEFAULT_FRAME_STYLE|wx.FRAME_TOOL_WINDOW|wx.STAY_ON_TOP|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		

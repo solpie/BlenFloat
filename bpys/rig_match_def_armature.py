@@ -83,13 +83,13 @@ def main():
             ["spine_ctrl_4_str", "neck_1_fk"],
             ["clavi_str_L", "shoulder_L"],
             ["shoulder_str_L", "arm_fk_L"],
-            ["elbow_str_L", "forearm_fk_L"],
             ["wrist_str_L", "hand_fk_L"],
             ["hand_str_L", "hand_end_L"],
             ["pelvis_str_L", "thigh_fk_L"],
             ["pelvis_str", "pelvis_end"],
-            # todo pelvis_str pelvis_end
-            ["knee_str_L", "shin_fk_L"],
+            # todo snap 2 bone
+            # ["elbow_str_L", "forearm_fk_L"],
+            # ["knee_str_L", "shin_fk_L"],
             ["ankle_str_L", "foot_fk_L"],
             ["foot_str_L", "toe_1_fk_L"],
             ["toe_str_1_L", "toe_2_fk_L"],
@@ -147,34 +147,6 @@ def main():
             # copy_except(bone, target, axis)
         return match_list_sym
 
-    def set_constraint_to_brg5(rig_obj, brg5_obj):
-        match_list = symmrtry([
-            ["arm_fk_L", "arm_ik_L"],
-            ["forearm_fk_L", "forearm_ik_L"],
-            ["thigh_fk_L", "thigh_ik_L"],
-            ["shin_fk_L", "shin_ik_L"],
-            ["foot_fk_L", "foot_ik_ctrl_L"],
-        ])
-        # add finger
-        for b in rig_obj.pose.bones:
-            if 'fing' in b.name and 'end' not in b.name:
-                match_list.append([b.name, b.name])
-
-        for a in match_list:
-            b = rig_obj.pose.bones[a[0]]
-            print('pose bone', b.name, 'copy', a[1])
-            c1 = None
-            for c in b.constraints:
-                if c.type == 'COPY_TRANSFORMS':
-                    c1 = c
-                    break
-            if not c1:
-                c1 = b.constraints.new("COPY_TRANSFORMS")
-            c1.target = brg5_obj  # bpy.data.objects[act_rig_obj.name]
-            c1.subtarget = a[1]
-            c1.target_space = 'POSE'
-            c1.owner_space = 'POSE'
-
     def rename_bones():
         obj = C.active_object
         for bone in obj.data.edit_bones:
@@ -183,7 +155,6 @@ def main():
       ################
     b_obj, r_obj = init_select_obj()
     # func_1#m_list = match_rig(b_obj, r_obj)
-    # func_2#set_constraint_to_brg5(r_obj, b_obj)
 
     def label(self, context):
         t = '\n'.join(logs)

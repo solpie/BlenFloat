@@ -75,37 +75,56 @@ def main():
 
     def set_constraint_to_brg5(rig_obj, brg5_obj):
         match_list = symmrtry([
-            ["arm_fk_L", "arm_ik_L"],
-            ["forearm_fk_L", "forearm_ik_L"],
-            ["thigh_fk_L", "thigh_ik_L"],
-            ["shin_fk_L", "shin_ik_L"],
-            ["foot_fk_L", "foot_ik_ctrl_L"],
+            ["arm_fk_L", "forearm_ik_L"],
+            ["forearm_fk_L", "hand_ik_ctrl_L"],
+            ["thigh_fk_L", "shin_ik_L"],
+            ["shin_fk_L", "foot_ik_ctrl_L"],
+            ["foot_fk_L", "toes_ik_ctrl_mid_L"],
+            ["toe_1_fk_L", "toes_ik_ctrl_L"],
         ])
+
+        def _set_constraints(set_obj, target_obj, m_list, type, space, ex_setting=None):
+            for a in m_list:
+                print('key',a[0])
+                b = set_obj.pose.bones[a[0]]
+                print('pose bone', b.name, 'copy', a[1])
+                c1 = None
+                for c_exist in b.constraints:
+                    if c_exist.type == type:
+                        c1 = c_exist
+                        break
+                if not c1:
+                    c1 = b.constraints.new(type)
+                c1.target = target_obj
+                c1.subtarget = a[1]
+                # c1.target_space = space
+                # c1.owner_space = space
+                if ex_setting:
+                    ex_setting(c1)
+        _set_constraints(rig_obj, brg5_obj, match_list,
+                         "DAMPED_TRACK", "POSE")
         # add finger
+        match_list_finger = []
         for b in rig_obj.pose.bones:
             if 'fing' in b.name and 'end' not in b.name:
-                match_list.append([b.name, b.name])
+                match_list_finger.append([b.name, b.name])
 
-        for a in match_list:
-            b = rig_obj.pose.bones[a[0]]
-            print('pose bone', b.name, 'copy', a[1])
-            c1 = None
-            for c_exist in b.constraints:
-                if c_exist.type == 'COPY_TRANSFORMS':
-                    c1 = c_exist
-                    break
-            if not c1:
-                c1 = b.constraints.new("COPY_TRANSFORMS")
-            c1.target = brg5_obj
-            c1.subtarget = a[1]
-            c1.target_space = 'POSE'
-            c1.owner_space = 'POSE'
-            # b.roll = brg5_obj.pose.bones[a[1]].roll
+        def _set_x_only(c):
+            c.use_x = True
+            c.use_y = False
+            c.use_z = False
+        _set_constraints(rig_obj, brg5_obj, match_list_finger,
+                         "COPY_ROTATION", "POSE", _set_x_only)
+        _set_constraints(rig_obj, brg5_obj, symmrtry([
+            ['hand_fk_L', 'palm_bend_ik_L']
+        ]),
+            "COPY_ROTATION", "POSE")
+
         return match_list
       ################
     ctrl_obj, def_obj = init_select_obj()
     match_list = set_constraint_to_brg5(def_obj, ctrl_obj)
-    calc_rolls(def_obj, ctrl_obj, match_list)
+    # calc_rolls(def_obj, ctrl_obj, match_list)
 
     def label(self, context):
         t = '\n'.join(logs)
