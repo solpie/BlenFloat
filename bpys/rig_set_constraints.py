@@ -75,17 +75,27 @@ def main():
 
     def set_constraint_to_brg5(rig_obj, brg5_obj):
         match_list = symmrtry([
-            ["arm_fk_L", "forearm_ik_L"],
-            ["forearm_fk_L", "hand_ik_ctrl_L"],
-            ["thigh_fk_L", "shin_ik_L"],
-            ["shin_fk_L", "foot_ik_ctrl_L"],
-            ["foot_fk_L", "toes_ik_ctrl_mid_L"],
-            ["toe_1_fk_L", "toes_ik_ctrl_L"],
-        ])
+            ["arm_fk_L", "arm_ik_L"],
+            ["forearm_fk_L", "forearm_ik_L"],
 
-        def _set_constraints(set_obj, target_obj, m_list, type, space, ex_setting=None):
+
+            ["thigh_fk_L", "thigh_ik_L"],
+            ["shin_fk_L", "shin_ik_L"],
+            ["foot_fk_L", "foot_ik_L"],
+            ["toe_1_fk_L", "toe_1_ik_L"],
+        ])
+        # match_list = symmrtry([
+        #     ["arm_fk_L", "forearm_ik_L"],
+        #     ["forearm_fk_L", "hand_ik_ctrl_L"],
+        #     ["thigh_fk_L", "shin_ik_L"],
+        #     ["shin_fk_L", "foot_ik_ctrl_L"],
+        #     ["foot_fk_L", "toes_ik_ctrl_mid_L"],
+        #     ["toe_1_fk_L", "toes_ik_ctrl_L"],
+        # ])
+
+        def _set_constraints(set_obj, target_obj, m_list, type, ex_setting=None):
             for a in m_list:
-                print('key',a[0])
+                print('key', a[0])
                 b = set_obj.pose.bones[a[0]]
                 print('pose bone', b.name, 'copy', a[1])
                 c1 = None
@@ -97,28 +107,74 @@ def main():
                     c1 = b.constraints.new(type)
                 c1.target = target_obj
                 c1.subtarget = a[1]
-                # c1.target_space = space
-                # c1.owner_space = space
                 if ex_setting:
                     ex_setting(c1)
+
+        def _set_damped_track(c):
+            c.head_tail = 1
         _set_constraints(rig_obj, brg5_obj, match_list,
-                         "DAMPED_TRACK", "POSE")
+                         "DAMPED_TRACK", _set_damped_track)
         # add finger
         match_list_finger = []
+        lock_list = []
         for b in rig_obj.pose.bones:
-            if 'fing' in b.name and 'end' not in b.name:
-                match_list_finger.append([b.name, b.name])
+            if 'fing' in b.name:
+                target_num = int(b.name[-3: -2]) + 1
+                target_name = b.name[: - 3] + str(target_num) + b.name[-2:]
+                target_num_pre = int(b.name[-3: -2]) - 1
+                target_name_pre = b.name[: - 3] + \
+                    str(target_num_pre) + b.name[-2:]
+                print(b.name, "to", target_name)
+                if rig_obj.pose.bones.get(target_name):
+                    match_list_finger.append([b.name, target_name])
+                else:
+                    lock_list.append([b.name, b.name])
+                    # lock_list.append([b.name, target_name_pre])
 
         def _set_x_only(c):
             c.use_x = True
             c.use_y = False
             c.use_z = False
+            c.target_space = 'POSE'
+            c.owner_space = 'POSE'
+
+        def _set_copy_transforms(c):
+            c.target_space = 'LOCAL'
+            c.owner_space = 'LOCAL'
+
+        def _set_copy_transforms_world(c):
+            c.target_space = 'WORLD'
+            c.owner_space = 'WORLD'
+            # st = c.subtarget
+            # if not c.id_data.pose.bones.get(st):
+            #     finger_num = int(st[-3:-2])-1
+            # c.subtarget = c.id_data
+            #     print(c.subtarget,c.subtarget)
+        # match_list.extend(match_list_finger)
+        lock_list.extend(symmrtry([
+            ['hand_fk_L', 'hand_fk_L']
+        ]))
+        _set_constraints(rig_obj, brg5_obj, lock_list,
+                         "COPY_ROTATION", _set_copy_transforms)
+        #  "COPY_TRANSFORMS", _set_copy_transforms)
+        #  "LOCKED_TRACK", _set_damped_track)
         _set_constraints(rig_obj, brg5_obj, match_list_finger,
-                         "COPY_ROTATION", "POSE", _set_x_only)
-        _set_constraints(rig_obj, brg5_obj, symmrtry([
-            ['hand_fk_L', 'palm_bend_ik_L']
-        ]),
-            "COPY_ROTATION", "POSE")
+                         #  "LOCKED_TRACK", _set_damped_track)
+                         "DAMPED_TRACK", _set_damped_track)
+
+        _set_constraints(rig_obj, brg5_obj, symmrtry([["spine_1_fk", "spine_1_fk"],
+                                                      ["spine_2_fk",
+                                                          "spine_2_fk"],
+                                                      ["pelvis",
+                                                          "pelvis_ctrl"],
+                                                      ["spine_3_fk", "spine_3_fk"]]),
+                         "COPY_TRANSFORMS", _set_copy_transforms_world)
+        #  "COPY_TRANSFORMS", _set_copy_transforms)
+
+        # _set_constraints(rig_obj, brg5_obj, symmrtry([
+        #     ['hand_fk_L', 'palm_bend_ik_L']
+        # ]),
+        #     "COPY_ROTATION")
 
         return match_list
       ################

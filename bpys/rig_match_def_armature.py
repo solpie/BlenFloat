@@ -20,13 +20,6 @@ def main():
                 ctrl_obj = obj
             if 'ctrl@' in obj.name:
                 brg5_obj = obj
-        # if len(C.selected_objects) == 2:
-        #     for obj in C.selected_objects:
-        #         if obj.name == C.active_object.name:
-        #             brg5_obj = obj
-        #         else:
-        #             rig_obj = obj
-        # else:
         if not(ctrl_obj and brg5_obj):
             logs.append('rename two armatures')
             print('rename two armatures')
@@ -35,22 +28,47 @@ def main():
             print('init select obj', brg5_obj.name, ctrl_obj.name)
         return brg5_obj, ctrl_obj
 
-    def snap_bone(pose_bone, target_bone, target_obj):
+    def snap_bone(pose_bone, target_bone, rig_obj, target_obj, move_bone=None, tail_offset=None):
         for area in bpy.context.screen.areas:
             if area.type == 'VIEW_3D':
                 ctx = bpy.context.copy()
                 ctx['area'] = area
                 ctx['region'] = area.regions[-1]
-        #         # bpy.ops.view3d.view_selected(ctx)
+                # bpy.ops.view3d.view_selected(ctx)
 
                 print('snap', pose_bone.name, 'to',
                       target_obj.name, target_bone.name)
                 mat = target_obj.matrix_world * target_bone.matrix
-                bpy.context.scene.cursor_location = mat.translation
+                mat2 = pose_bone.matrix * rig_obj.matrix_world
+                t = mat.translation - mat2.translation
+                if tail_offset:
+                    t += tail_offset
+
+                if move_bone:
+                    pose_bone = move_bone
                 pose_bone.bone.select = True
-                bpy.ops.view3d.snap_selected_to_cursor(ctx, use_offset=False)
+                bpy.ops.transform.translate(value=t, constraint_axis=(
+                    False, False, False), constraint_orientation='NORMAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
+                # bpy.ops.view3d.snap_selected_to_cursor(ctx, use_offset=False)
                 pose_bone.bone.select = False  # True
                 break
+
+    # def snap_bone2(pose_bone, target_bone, target_obj):
+    #     for area in bpy.context.screen.areas:
+    #         if area.type == 'VIEW_3D':
+    #             ctx = bpy.context.copy()
+    #             ctx['area'] = area
+    #             ctx['region'] = area.regions[-1]
+    #             # bpy.ops.view3d.view_selected(ctx)
+
+    #             print('snap', pose_bone.name, 'to',
+    #                   target_obj.name, target_bone.name)
+    #             mat = target_obj.matrix_world * target_bone.matrix
+    #             bpy.context.scene.cursor_location = mat.translation
+    #             pose_bone.bone.select = True
+    #             bpy.ops.view3d.snap_selected_to_cursor(ctx, use_offset=False)
+    #             pose_bone.bone.select = False  # True
+    #             break
 
     def copy_except(bone, target, idx):
         # idx 0,1,2 x y z
@@ -76,29 +94,30 @@ def main():
 
     def match_rig(brg5_obj, rig_obj):
         match_list_L = [
-            ["master_torso", "spine_1_def"],
-            ["spine_ctrl_1_str", "spine_2_def"],
-            ["spine_ctrl_2_str", "spine_3_def"],
-            # ["spine_ctrl_3_str", "neck_1_fk"],
+            ["master_torso", "spine.tail"],
+            ["spine_ctrl_1_str", "spine_1_fk"],
+            ["spine_ctrl_2_str", "spine_2_fk"],
+            ["spine_ctrl_3_str", "spine_3_fk"],
             ["spine_ctrl_4_str", "neck_1_fk"],
             ["clavi_str_L", "shoulder_L"],
             ["shoulder_str_L", "arm_fk_L"],
             ["wrist_str_L", "hand_fk_L"],
-            ["hand_str_L", "hand_end_L"],
+            ["hand_str_L", "hand_fk.tail_L"],
             ["pelvis_str_L", "thigh_fk_L"],
-            ["pelvis_str", "pelvis_end"],
-            # todo snap 2 bone
-            # ["elbow_str_L", "forearm_fk_L"],
-            # ["knee_str_L", "shin_fk_L"],
+            ["pelvis_str", "pelvis.tail"],
+            # pole str bone
+            ["elbow_str_L", "forearm_fk_L"],
+            ["knee_str_L", "shin_fk_L"],
+            #
             ["ankle_str_L", "foot_fk_L"],
             ["foot_str_L", "toe_1_fk_L"],
-            ["toe_str_1_L", "toe_2_fk_L"],
-            ["toe_str_2_L", "toe_end_L"],
+            ["toe_str_1_L", "toe_1_fk_L"],
+            ["toe_str_2_L", "toe_1_fk.tail_L"],
             # finger
             ["fing_thumb_str_1_L", "fing_thumb_1_L"],
             ["fing_thumb_str_2_L", "fing_thumb_2_L"],
             ["fing_thumb_str_3_L", "fing_thumb_3_L"],
-            ["fing_thumb_str_4_L", "fing_thumb_end_L"],
+            ["fing_thumb_str_4_L", "fing_thumb_3.tail_L"],
             ["fing_ind_str_2_L", "fing_ind_2_L"],
             ["fing_mid_str_2_L", "fing_mid_2_L"],
             ["fing_ring_str_2_L", "fing_ring_2_L"],
@@ -111,10 +130,10 @@ def main():
             ["fing_mid_str_4_L", "fing_mid_4_L"],
             ["fing_ring_str_4_L", "fing_ring_4_L"],
             ["fing_lit_str_4_L", "fing_lit_4_L"],
-            ["fing_ind_str_5_L", "fing_ind_end_L"],
-            ["fing_mid_str_5_L", "fing_mid_end_L"],
-            ["fing_ring_str_5_L", "fing_ring_end_L"],
-            ["fing_lit_str_5_L", "fing_lit_end_L"],
+            ["fing_ind_str_5_L", "fing_ind_4.tail_L"],
+            ["fing_mid_str_5_L", "fing_mid_4.tail_L"],
+            ["fing_ring_str_5_L", "fing_ring_4.tail_L"],
+            ["fing_lit_str_5_L", "fing_lit_4.tail_L"],
         ]
         match_list_sym = match_list_L.copy()
         for a in match_list_L:
@@ -126,25 +145,34 @@ def main():
                 match_list_sym.append([k_R, v_R])
 
         bpy.ops.pose.select_all(action='DESELECT')
+
+        def _get_move_bone(pbone_name, bones):
+            if 'elbow_str' in pbone_name:
+                return bones[pbone_name.replace('elbow_str', 'elbow_pole_str')]
+            if 'knee_str' in pbone_name:
+                return bones[pbone_name.replace('knee_str', 'knee_pole_str')]
+            return None
+
         for a in match_list_sym:
+            tail_offset = None
+            is_tail = False
             pose_bone_name = a[0]
             match_bone_name = a[1]
 
+            if '.tail' in match_bone_name:
+                is_tail = True
+                match_bone_name = match_bone_name.replace('.tail', '')
+
             pbone = brg5_obj.pose.bones[pose_bone_name]
             rbone = rig_obj.pose.bones[match_bone_name]
-            snap_bone(pbone, rbone, rig_obj)
+            if is_tail:
+                tail_offset = (rbone.tail - rbone.head)
+            if 'toe_str_1' in pose_bone_name:
+                tail_offset = (rbone.tail - rbone.head) * 0.1
+            move_bone = _get_move_bone(pose_bone_name, brg5_obj.pose.bones)
 
-        align_list = [
-            ['elbow_pole_str_L', 'elbow_str_L', 1],
-            ['elbow_pole_str_R', 'elbow_str_R', 1],
-            ['knee_pole_str_L', 'knee_str_L', 1],
-            ['knee_pole_str_R', 'knee_str_R', 1],
-        ]
-        for a in align_list:
-            bone = brg5_obj.pose.bones[a[0]]
-            target = brg5_obj.pose.bones[a[1]]
-            axis = a[2]
-            # copy_except(bone, target, axis)
+            snap_bone(pbone, rbone, brg5_obj, rig_obj, move_bone, tail_offset)
+
         return match_list_sym
 
     def rename_bones():

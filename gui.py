@@ -141,6 +141,9 @@ class BlenFloat ( wx.Frame ):
 		self.m_button131 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"calc rolls", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer4.Add( self.m_button131, 0, wx.ALL, 5 )
 		
+		self.m_button16 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"rename fuse", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer4.Add( self.m_button16, 0, wx.ALL, 5 )
+		
 		
 		sbSizer3.Add( fgSizer4, 1, wx.EXPAND, 5 )
 		
@@ -205,6 +208,7 @@ class BlenFloat ( wx.Frame ):
 		self.m_button11.Bind( wx.EVT_BUTTON, self.on_rig_match_def_armature )
 		self.m_button141.Bind( wx.EVT_BUTTON, self.on_rig_set_constraints )
 		self.m_button131.Bind( wx.EVT_BUTTON, self.on_rig_calc_rolls )
+		self.m_button16.Bind( wx.EVT_BUTTON, self.on_rename_fuse )
 		self.m_button15.Bind( wx.EVT_BUTTON, self.on_rig_clear_all_constraints )
 		self.combobox_hwnd.Bind( wx.EVT_COMBOBOX, self.on_select_hwnd )
 		self.m_button121.Bind( wx.EVT_BUTTON, self.on_find_hwnd )
@@ -245,6 +249,9 @@ class BlenFloat ( wx.Frame ):
 		event.Skip()
 	
 	def on_rig_calc_rolls( self, event ):
+		event.Skip()
+	
+	def on_rename_fuse( self, event ):
 		event.Skip()
 	
 	def on_rig_clear_all_constraints( self, event ):
