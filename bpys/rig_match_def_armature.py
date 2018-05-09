@@ -98,7 +98,12 @@ def main():
             ["spine_ctrl_1_str", "spine_1_fk"],
             ["spine_ctrl_2_str", "spine_2_fk"],
             ["spine_ctrl_3_str", "spine_3_fk"],
-            ["spine_ctrl_4_str", "neck_1_fk"],
+            ["spine_ctrl_4_str", "spine_3.tail_fk"],
+            #head
+            ["neck_ctrl_2_str", "neck_2_fk"],
+            ["neck_ctrl_3_str", "neck_3_fk"],
+            ["neck_ctrl_4_str", "neck_3.tail_fk"],
+            #arm
             ["clavi_str_L", "shoulder_L"],
             ["shoulder_str_L", "arm_fk_L"],
             ["wrist_str_L", "hand_fk_L"],

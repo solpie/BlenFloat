@@ -164,7 +164,18 @@ class BlenFloat ( wx.Frame ):
 		self.m_panel2.SetSizer( bSizer41 )
 		self.m_panel2.Layout()
 		bSizer41.Fit( self.m_panel2 )
-		self.m_notebook1.AddPage( self.m_panel2, u"Rig", True )
+		self.m_notebook1.AddPage( self.m_panel2, u"Rig", False )
+		self.panel_char = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer7 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_button17 = wx.Button( self.panel_char, wx.ID_ANY, u"open", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7.Add( self.m_button17, 0, wx.ALL, 5 )
+		
+		
+		self.panel_char.SetSizer( bSizer7 )
+		self.panel_char.Layout()
+		bSizer7.Fit( self.panel_char )
+		self.m_notebook1.AddPage( self.panel_char, u"Char", True )
 		self.m_panel3 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer51 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -210,6 +221,7 @@ class BlenFloat ( wx.Frame ):
 		self.m_button131.Bind( wx.EVT_BUTTON, self.on_rig_calc_rolls )
 		self.m_button16.Bind( wx.EVT_BUTTON, self.on_rename_fuse )
 		self.m_button15.Bind( wx.EVT_BUTTON, self.on_rig_clear_all_constraints )
+		self.m_button17.Bind( wx.EVT_BUTTON, self.on_char_open )
 		self.combobox_hwnd.Bind( wx.EVT_COMBOBOX, self.on_select_hwnd )
 		self.m_button121.Bind( wx.EVT_BUTTON, self.on_find_hwnd )
 	
@@ -255,6 +267,9 @@ class BlenFloat ( wx.Frame ):
 		event.Skip()
 	
 	def on_rig_clear_all_constraints( self, event ):
+		event.Skip()
+	
+	def on_char_open( self, event ):
 		event.Skip()
 	
 	def on_select_hwnd( self, event ):

@@ -40,13 +40,20 @@ from gui import BlenFloat
 
 from gob import gob_bpy, runZRemesher, runDynaMesh, key_func, zbCloseHole
 
-
 class BlenFloatView(BlenFloat):
-
     def __init__(self, p):
         BlenFloat.__init__(self, p)
         self.on_find_hwnd(None)
         pass
+
+    def init_openl_panel(self):
+        self.canvas = myGLCanvas(self, size=(640, 480))
+        self.panel = GLPanel(self, canvas=self.canvas)
+
+        self.sizer = wx.BoxSizer()
+        self.sizer.Add(self.canvas, 1, wx.EXPAND)
+        self.sizer.Add(self.panel, 0, wx.EXPAND)
+        self.SetSizerAndFit(self.sizer)
 
     def on_export(self, event):
         print(gob_bpy["export"])
@@ -100,6 +107,13 @@ class BlenFloatView(BlenFloat):
 
     def on_rig_clear_all_constraints(self, event):
         run_bpy_by_filename('bpys/rig_clear_all_constraints.py')
+    # char tab
+
+    def on_char_open(self, event):
+        with open('views/char.py', 'r') as f:
+            s = f.read()
+            run_py(s)
+        pass
     # settig tab
     title_hwnd_map = {}
     hwnd = -1
@@ -152,12 +166,12 @@ def run_bpy_str(bpystr):
         callBlender(frame.hwnd)
     pass
 
-    def run_py(self, pycode):
-        try:
-            exec(compile(pycode, '<string>', 'exec'))
-        except Exception as e:
-            print(e)
-            return 'err'
+def run_py(pycode):
+    try:
+        exec(compile(pycode, '<string>', 'exec'))
+    except Exception as e:
+        print(e)
+        return 'err'
 
 
 def elevate():
