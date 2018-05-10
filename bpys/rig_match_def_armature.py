@@ -94,7 +94,7 @@ def main():
 
     def match_rig(brg5_obj, rig_obj):
         match_list_L = [
-            ["master_torso", "spine.tail"],
+            ["master_torso", "master_torso"],
             ["spine_ctrl_1_str", "spine_1_fk"],
             ["spine_ctrl_2_str", "spine_2_fk"],
             ["spine_ctrl_3_str", "spine_3_fk"],

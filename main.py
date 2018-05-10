@@ -160,12 +160,12 @@ def run_bpy_by_filename_func_stack(filename, func_stack):
 
 
 def run_bpy_str(bpystr):
+    # print('run_bpy_str')
     with open('c:/tmp/bpy.py', 'w') as bpy:
         bpy.write(bpystr)
         bpy.close()
         callBlender(frame.hwnd)
     pass
-
 def run_py(pycode):
     try:
         exec(compile(pycode, '<string>', 'exec'))
