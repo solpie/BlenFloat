@@ -1,3 +1,5 @@
+# import sys
+# sys.dont_write_bytecode = True
 # win 32 con
 # set Blender Foreground
 import win32api
@@ -109,7 +111,7 @@ class BlenFloatView(BlenFloat):
         run_bpy_by_filename('bpys/rig_clear_all_constraints.py')
     # char tab
 
-    def on_char_open(self, event):
+    def on_char_open(self, event=None):
         with open('views/char.py', 'r') as f:
             s = f.read()
             run_py(s)
