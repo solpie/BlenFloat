@@ -66,9 +66,10 @@ def runAsAdmin(cmdLine=None, wait=True):
                               lpParameters=params)
 
     if wait:
-        procHandle = procInfo['hProcess']    
-        obj = win32event.WaitForSingleObject(procHandle, win32event.INFINITE)
-        rc = win32process.GetExitCodeProcess(procHandle)
+        sys.exit()
+        # procHandle = procInfo['hProcess']    
+        # obj = win32event.WaitForSingleObject(procHandle, win32event.INFINITE)
+        # rc = win32process.GetExitCodeProcess(procHandle)
         #print "Process handle %s returned code %s" % (procHandle, rc)
     else:
         rc = None

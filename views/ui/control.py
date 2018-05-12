@@ -76,7 +76,7 @@ class Sprite(Control):
         img = pyglet.resource.image(filename)
         self.__sp = pyglet.sprite.Sprite(img=img, batch=batch)
         super().__init__(img.width, img.height)
-        # print('img width', self.width, self.height)
+        print('img width', self.width, self.height)
 
     def center_anchor(self):
         self.anchor_x = int(self.width / 2)

@@ -6,7 +6,7 @@ def main():
     dirname = os.path.dirname(__file__)
     pyglet.resource.path = ['./res']
     pyglet.resource.reindex()
-
+    print('load res',__file__)
     class Button():
         sp_up = None
         sp_down = None
@@ -65,15 +65,21 @@ def main():
 
     from views.ui.control import Control, Sprite, EventDispatcher, MouseEvent, view as v
     add_ctrl = v.add_ctrl
+    # from views.marionette import Marionette2
+    # import importlib
+    # for m in sys.modules:
+    #     if 'marionette' in m:
+    #         importlib.reload(sys.modules[m])
+    #         print(m)
 
-    class Marionette():
+    class Marionette(pyglet.window.Window):
         lmx = -1
         lmy = -1
         main_batch = pyglet.graphics.Batch()
         window = None
 
-        def __init__(self):
-            pass
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
         # window
         is_topmost = False
 
@@ -122,6 +128,7 @@ def main():
             sp.y = win.height - y - sp.height
 
     run_bpy_str = globals()['run_bpy_str']
+
     m = Marionette()
     win = m.new_window()
     # init control
@@ -140,12 +147,12 @@ def main():
         win.close()
         pass
 
-    def reload(t=None):
-        pyglet.clock.schedule_once(exit, 0.3)
-        globals()['frame'].on_char_open()
-        pass
+    # def reload(t=None):
+    #     pyglet.clock.schedule_once(exit, 0.3)
+    #     globals()['frame'].on_char_open()
+    #     pass
     b = Sprite('reload_up.png', m.main_batch).set_pos(420, 580)
-    add_ctrl(b, MouseEvent.DOWN, reload)
+    # add_ctrl(b, MouseEvent.DOWN, reload)
 
     # set up bone position
     w_mid = win.width / 2

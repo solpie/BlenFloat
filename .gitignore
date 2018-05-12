@@ -1,3 +1,5 @@
 **.pyc
 /.vscode
 .vscode/.ropeproject/objectdb
+/build
+/design

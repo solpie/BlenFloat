@@ -111,8 +111,14 @@ class BlenFloatView(BlenFloat):
         run_bpy_by_filename('bpys/rig_clear_all_constraints.py')
     # char tab
 
-    def on_char_open(self, event=None):
+    def on_char2_open(self, event=None):
         with open('views/char.py', 'r') as f:
+            s = f.read()
+            run_py(s)
+        pass
+        
+    def on_char_open(self, event=None):
+        with open('views/marionette.py', 'r') as f:
             s = f.read()
             run_py(s)
         pass
@@ -175,10 +181,11 @@ def run_py(pycode):
         print(e)
         return 'err'
 
-
+import sys
 def elevate():
     import admin
     if not admin.isUserAdmin():
+        # sys.exit()
         admin.runAsAdmin()
 
 frame = None

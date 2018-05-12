@@ -171,6 +171,9 @@ class BlenFloat ( wx.Frame ):
 		self.m_button17 = wx.Button( self.panel_char, wx.ID_ANY, u"open", wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer7.Add( self.m_button17, 0, wx.ALL, 5 )
 		
+		self.m_button18 = wx.Button( self.panel_char, wx.ID_ANY, u"old", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7.Add( self.m_button18, 0, wx.ALL, 5 )
+		
 		
 		self.panel_char.SetSizer( bSizer7 )
 		self.panel_char.Layout()
@@ -222,6 +225,7 @@ class BlenFloat ( wx.Frame ):
 		self.m_button16.Bind( wx.EVT_BUTTON, self.on_rename_fuse )
 		self.m_button15.Bind( wx.EVT_BUTTON, self.on_rig_clear_all_constraints )
 		self.m_button17.Bind( wx.EVT_BUTTON, self.on_char_open )
+		self.m_button18.Bind( wx.EVT_BUTTON, self.on_char2_open )
 		self.combobox_hwnd.Bind( wx.EVT_COMBOBOX, self.on_select_hwnd )
 		self.m_button121.Bind( wx.EVT_BUTTON, self.on_find_hwnd )
 	
@@ -270,6 +274,9 @@ class BlenFloat ( wx.Frame ):
 		event.Skip()
 	
 	def on_char_open( self, event ):
+		event.Skip()
+	
+	def on_char2_open( self, event ):
 		event.Skip()
 	
 	def on_select_hwnd( self, event ):
