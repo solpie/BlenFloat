@@ -7,6 +7,7 @@ from enum import Enum
 class MouseEvent(Enum):
     DOWN = 'down'
     UP = 'up'
+    OVER = 'over'
 
 
 class EventDispatcher():
@@ -51,6 +52,7 @@ class Control(EventDispatcher):
         self.x = x
         self.y = y
 
+
     def is_in(self, x, y, anchor_x=0, anchor_y=0):
         if x > (self.x - anchor_x) and x < (self.x - anchor_x + self.width):
             if y > (self.y - anchor_y) and y < (self.y - anchor_y + self.height):
@@ -71,6 +73,7 @@ class Sprite(Control):
     anchor_x = 0
     anchor_y = 0
     name = ''
+    parent = None
 
     def __init__(self, filename, batch):
         img = pyglet.resource.image(filename)
@@ -85,6 +88,17 @@ class Sprite(Control):
 
     def over(self, **e):
         self.__sp.color = (255, 255, 0)
+
+    _scale = 1
+
+    @property
+    def scale(self):
+        return self._scale
+
+    @scale.setter
+    def scale(self, value):
+        self.__sp.scale = value
+        self._scale = value
 
     def is_in(self, x, y):
         v = super().is_in(x, y, self.anchor_x, self.anchor_y)
@@ -127,6 +141,11 @@ class View(object):
                 print(a.name)
                 a.emit(MouseEvent.DOWN, a)
                 # break
+
+    def mouse_move(self, x, y):
+        for a in self.ctrls:
+            if a.is_in(x, y):
+                a.emit(MouseEvent.OVER, a)
 
     def mouse_release(self, x, y):
         print('mouse_release')

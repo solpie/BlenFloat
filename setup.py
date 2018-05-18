@@ -16,4 +16,4 @@ setup(name="BlenFloat",
       version="0.1",
       description="BlenFloat",
       options={"build_exe": build_exe_options},
-      executables=[Executable("main.py", base=base)])
+      executables=[Executable("sdl2test.py", base=base)])
