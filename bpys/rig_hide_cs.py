@@ -3,7 +3,7 @@ def main():
     D = bpy.data
     C = bpy.context
     logs = ['hide cs shape']
-    bpy.context.scene.layers[19] = True
+    # bpy.context.scene.layers[19] = True
     ctrl_obj = None
     for obj in D.objects:
         if 'ctrl@' in obj.name:
@@ -14,7 +14,7 @@ def main():
             if 'cs_' in obj.name and('blenrig' in obj.users_group[0].name):
                 obj.parent = ctrl_obj
                 print(obj.name, 'blenrig' in obj.users_group[0].name)
-    bpy.context.scene.layers[19] = False
+    # bpy.context.scene.layers[19] = False
 
     def info(self, context):
         t = '\n'.join(logs)

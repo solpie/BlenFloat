@@ -110,6 +110,7 @@ def main():
             ["hand_str_L", "hand_fk.tail_L"],
             ["pelvis_str_L", "thigh_fk_L"],
             ["pelvis_str", "pelvis.tail"],
+            ["pelvis_ctrl_str", "pelvis.tail"],
             # pole str bone
             ["elbow_str_L", "forearm_fk_L"],
             ["knee_str_L", "shin_fk_L"],

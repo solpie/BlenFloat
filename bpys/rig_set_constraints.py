@@ -107,18 +107,18 @@ def main():
         # add finger
         match_list_finger = []
         lock_list = []
-        for b in rig_obj.pose.bones:
-            if 'fing' in b.name:
-                target_num = int(b.name[-3: -2]) + 1
-                target_name = b.name[: - 3] + str(target_num) + b.name[-2:]
-                # target_num_pre = int(b.name[-3: -2]) - 1
-                # target_name_pre = b.name[: - 3] + \
-                # str(target_num_pre) + b.name[-2:]
-                print(b.name, "to", target_name)
-                if rig_obj.pose.bones.get(target_name):
-                    match_list_finger.append([b.name, target_name])
-                else:
-                    lock_list.append([b.name, b.name])
+        # for b in rig_obj.pose.bones:
+        #     if 'fing' in b.name:
+        #         target_num = int(b.name[-3: -2]) + 1
+        #         target_name = b.name[: - 3] + str(target_num) + b.name[-2:]
+        #         # target_num_pre = int(b.name[-3: -2]) - 1
+        #         # target_name_pre = b.name[: - 3] + \
+        #         # str(target_num_pre) + b.name[-2:]
+        #         print(b.name, "to", target_name)
+        #         if rig_obj.pose.bones.get(target_name):
+        #             match_list_finger.append([b.name, target_name])
+        #         else:
+        #             lock_list.append([b.name, b.name])
                     # lock_list.append([b.name, target_name_pre])
 
         def _set_x_only(c):
@@ -129,8 +129,8 @@ def main():
             c.owner_space = 'POSE'
 
         def _set_copy_transforms(c):
-            c.target_space = 'LOCAL'
-            c.owner_space = 'LOCAL'
+            c.target_space = 'POSE'
+            c.owner_space = 'POSE'
 
         def _set_copy_transforms_world(c):
             c.target_space = 'WORLD'
@@ -162,7 +162,8 @@ def main():
             ["neck_1_fk", "neck_1_fk"],
             ["neck_2_fk", "neck_2_fk"],
             ["neck_3_fk", "neck_3_fk"],
-            ['head_fk', 'head_fk'],
+            ['head_fk', 'head_fk'], 
+            ['shoulder_L', 'shoulder_L'],
             ]),
             "COPY_TRANSFORMS", _set_copy_transforms_world)
         #  "COPY_TRANSFORMS", _set_copy_transforms)
