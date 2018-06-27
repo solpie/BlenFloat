@@ -5,7 +5,7 @@ def main():
     logs = []
 
     def init_select_obj():
-        # rename def armature to "def@xxxx" then blenRig5 to "ctrl@xxxx",and toggle in pose mode
+        # rename def armature to "@def@xxxx" then blenRig5 to "@ctrl@xxxx",and toggle in pose mode
         # only one 3d_view open
         # repose
         # bake armature
@@ -16,9 +16,9 @@ def main():
         ctrl_obj = None
         brg5_obj = None
         for obj in D.objects:
-            if 'def@' in obj.name:
+            if '@def@' in obj.name:
                 ctrl_obj = obj
-            if 'ctrl@' in obj.name:
+            if '@ctrl@' in obj.name:
                 brg5_obj = obj
         if not(ctrl_obj and brg5_obj):
             logs.append('rename two armatures')

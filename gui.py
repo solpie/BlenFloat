@@ -123,6 +123,9 @@ class BlenFloat ( wx.Frame ):
 		self.m_button13 = wx.Button( self.m_panel2, wx.ID_ANY, u"hide cs SHA", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer1.Add( self.m_button13, wx.GBPosition( 0, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 		
+		self.m_button21 = wx.Button( self.m_panel2, wx.ID_ANY, u"set parent roll", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer1.Add( self.m_button21, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
 		
 		bSizer41.Add( gbSizer1, 1, wx.EXPAND, 5 )
 		
@@ -164,7 +167,7 @@ class BlenFloat ( wx.Frame ):
 		self.m_panel2.SetSizer( bSizer41 )
 		self.m_panel2.Layout()
 		bSizer41.Fit( self.m_panel2 )
-		self.m_notebook1.AddPage( self.m_panel2, u"Rig", False )
+		self.m_notebook1.AddPage( self.m_panel2, u"Rig", True )
 		self.panel_char = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer7 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -178,7 +181,7 @@ class BlenFloat ( wx.Frame ):
 		self.panel_char.SetSizer( bSizer7 )
 		self.panel_char.Layout()
 		bSizer7.Fit( self.panel_char )
-		self.m_notebook1.AddPage( self.panel_char, u"Char", True )
+		self.m_notebook1.AddPage( self.panel_char, u"Char", False )
 		self.m_panel3 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer51 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -219,6 +222,7 @@ class BlenFloat ( wx.Frame ):
 		self.m_button10.Bind( wx.EVT_BUTTON, self.on_dynamesh )
 		self.m_button51.Bind( wx.EVT_BUTTON, self.on_run_test_py )
 		self.m_button13.Bind( wx.EVT_BUTTON, self.on_hide_SHA )
+		self.m_button21.Bind( wx.EVT_BUTTON, self.on_rig_set_parent_roll )
 		self.m_button11.Bind( wx.EVT_BUTTON, self.on_rig_match_def_armature )
 		self.m_button141.Bind( wx.EVT_BUTTON, self.on_rig_set_constraints )
 		self.m_button131.Bind( wx.EVT_BUTTON, self.on_rig_calc_rolls )
@@ -256,6 +260,9 @@ class BlenFloat ( wx.Frame ):
 		event.Skip()
 	
 	def on_hide_SHA( self, event ):
+		event.Skip()
+	
+	def on_rig_set_parent_roll( self, event ):
 		event.Skip()
 	
 	def on_rig_match_def_armature( self, event ):

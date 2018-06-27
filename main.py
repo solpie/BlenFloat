@@ -42,7 +42,9 @@ from gui import BlenFloat
 
 from gob import gob_bpy, runZRemesher, runDynaMesh, key_func, zbCloseHole
 
+
 class BlenFloatView(BlenFloat):
+
     def __init__(self, p):
         BlenFloat.__init__(self, p)
         self.on_find_hwnd(None)
@@ -92,6 +94,9 @@ class BlenFloatView(BlenFloat):
             pass
         pass
 
+    def on_rig_set_parent_roll(self, event):
+        run_bpy_by_filename('bpys/rig_set_parent_roll.py')
+
     def on_hide_SHA(self, event):
         run_bpy_by_filename('bpys/rig_hide_cs.py')
 
@@ -116,7 +121,7 @@ class BlenFloatView(BlenFloat):
             s = f.read()
             run_py(s)
         pass
-        
+
     def on_char_open(self, event=None):
         with open('views/marionette.py', 'r') as f:
             s = f.read()
@@ -174,6 +179,8 @@ def run_bpy_str(bpystr):
         bpy.close()
         callBlender(frame.hwnd)
     pass
+
+
 def run_py(pycode):
     try:
         exec(compile(pycode, '<string>', 'exec'))
@@ -182,6 +189,8 @@ def run_py(pycode):
         return 'err'
 
 import sys
+
+
 def elevate():
     import admin
     if not admin.isUserAdmin():
