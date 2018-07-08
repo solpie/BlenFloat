@@ -17,7 +17,7 @@ import wx.xrc
 class BlenFloat ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BlenFloat", pos = wx.DefaultPosition, size = wx.Size( 385,405 ), style = wx.DEFAULT_FRAME_STYLE|wx.FRAME_TOOL_WINDOW|wx.STAY_ON_TOP|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"BlenFloat", pos = wx.DefaultPosition, size = wx.Size( 385,550 ), style = wx.DEFAULT_FRAME_STYLE|wx.FRAME_TOOL_WINDOW|wx.STAY_ON_TOP|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		
@@ -129,6 +129,21 @@ class BlenFloat ( wx.Frame ):
 		
 		bSizer41.Add( gbSizer1, 1, wx.EXPAND, 5 )
 		
+		sbSizer4 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel2, wx.ID_ANY, u"Auto Rig Pro" ), wx.VERTICAL )
+		
+		fgSizer7 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer7.SetFlexibleDirection( wx.BOTH )
+		fgSizer7.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_button211 = wx.Button( sbSizer4.GetStaticBox(), wx.ID_ANY, u"fix stretch", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer7.Add( self.m_button211, 0, wx.ALL, 5 )
+		
+		
+		sbSizer4.Add( fgSizer7, 1, wx.EXPAND, 5 )
+		
+		
+		bSizer41.Add( sbSizer4, 1, wx.EXPAND, 5 )
+		
 		sbSizer3 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel2, wx.ID_ANY, u"blenRig5" ), wx.VERTICAL )
 		
 		fgSizer4 = wx.FlexGridSizer( 0, 2, 0, 0 )
@@ -144,21 +159,11 @@ class BlenFloat ( wx.Frame ):
 		self.m_button131 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"calc rolls", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer4.Add( self.m_button131, 0, wx.ALL, 5 )
 		
-		self.m_button16 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"rename fuse", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer4.Add( self.m_button16, 0, wx.ALL, 5 )
+		self.m_button15 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"clear all constraints", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer4.Add( self.m_button15, 0, wx.ALL, 5 )
 		
 		
 		sbSizer3.Add( fgSizer4, 1, wx.EXPAND, 5 )
-		
-		fgSizer5 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer5.SetFlexibleDirection( wx.BOTH )
-		fgSizer5.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_button15 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"clear all constraints", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer5.Add( self.m_button15, 0, wx.ALL, 5 )
-		
-		
-		sbSizer3.Add( fgSizer5, 1, wx.EXPAND, 5 )
 		
 		
 		bSizer41.Add( sbSizer3, 1, wx.EXPAND, 5 )
@@ -223,10 +228,10 @@ class BlenFloat ( wx.Frame ):
 		self.m_button51.Bind( wx.EVT_BUTTON, self.on_run_test_py )
 		self.m_button13.Bind( wx.EVT_BUTTON, self.on_hide_SHA )
 		self.m_button21.Bind( wx.EVT_BUTTON, self.on_rig_set_parent_roll )
+		self.m_button211.Bind( wx.EVT_BUTTON, self.on_rig_fix_stretch )
 		self.m_button11.Bind( wx.EVT_BUTTON, self.on_rig_match_def_armature )
 		self.m_button141.Bind( wx.EVT_BUTTON, self.on_rig_set_constraints )
 		self.m_button131.Bind( wx.EVT_BUTTON, self.on_rig_calc_rolls )
-		self.m_button16.Bind( wx.EVT_BUTTON, self.on_rename_fuse )
 		self.m_button15.Bind( wx.EVT_BUTTON, self.on_rig_clear_all_constraints )
 		self.m_button17.Bind( wx.EVT_BUTTON, self.on_char_open )
 		self.m_button18.Bind( wx.EVT_BUTTON, self.on_char2_open )
@@ -265,6 +270,9 @@ class BlenFloat ( wx.Frame ):
 	def on_rig_set_parent_roll( self, event ):
 		event.Skip()
 	
+	def on_rig_fix_stretch( self, event ):
+		event.Skip()
+	
 	def on_rig_match_def_armature( self, event ):
 		event.Skip()
 	
@@ -272,9 +280,6 @@ class BlenFloat ( wx.Frame ):
 		event.Skip()
 	
 	def on_rig_calc_rolls( self, event ):
-		event.Skip()
-	
-	def on_rename_fuse( self, event ):
 		event.Skip()
 	
 	def on_rig_clear_all_constraints( self, event ):

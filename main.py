@@ -99,7 +99,10 @@ class BlenFloatView(BlenFloat):
 
     def on_hide_SHA(self, event):
         run_bpy_by_filename('bpys/rig_hide_cs.py')
-
+#auto rig pro
+    def on_rig_fix_stretch(self, event):
+        run_bpy_by_filename('bpys/auto_rig_pro/fix_stretch.py')
+        
     def on_rig_match_def_armature(self, event):
         run_bpy_by_filename_func_stack(
             'bpys/rig_match_def_armature.py', ['# func_1#'])
